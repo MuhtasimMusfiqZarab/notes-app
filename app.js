@@ -1,6 +1,7 @@
+const fs = require("fs");
 const chalk = require("chalk");
 const yargs = require("yargs");
-const getNotes = require("./notes.js");
+const notes = require("./notes.js");
 
 yargs.version("1.1.0");
 
@@ -21,8 +22,7 @@ yargs.command({
     }
   },
   handler: argv => {
-    console.log("Title: " + argv.title);
-    console.log("body: " + argv.body);
+    notes.addNote(argv.title, argv.body);
   }
 });
 
@@ -63,3 +63,14 @@ yargs.command({
 });
 
 yargs.parse();
+
+// learining Things
+
+const dataBuffer = fs.readFileSync("1-json.json"); // this one reads file and returns buffer
+const dataJSON = dataBuffer.toString(); // buffer is converted to original JSON
+const user = JSON.parse(dataJSON); // this converts JSON to data object
+user.name = "Zarab";
+user.age = 25;
+const userJSON = JSON.stringify(user);
+fs.writeFileSync("1-json.json", userJSON);
+// console.log(data);
