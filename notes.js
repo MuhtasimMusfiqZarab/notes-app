@@ -1,4 +1,5 @@
 const fs = require("fs");
+const chalk = require("chalk");
 
 //getting notes
 const getNote = () => {
@@ -46,13 +47,19 @@ const loadNotes = () => {
 const removeNote = title => {
   const notes = loadNotes();
 
-  //checking duplicate notes
+  //Finding the note to remove it
   const newNotes = notes.filter(note => {
     return note.title !== title;
   });
-  //saving the new notes
-  savenotes(newNotes);
-  console.log(`The note for title: ${title} is removed`);
+
+  // Check if any note is removed
+  if (notes.length > newNotes.length) {
+    console.log(chalk.green.inverse(`The note with ${title} title is removed`)); // Inverse uses background instead of Font color
+    //saving the new notes
+    savenotes(newNotes);
+  } else {
+    console.log(chalk.red.inverse(`No note is found with title :${title}`));
+  }
 };
 
 module.exports = {
