@@ -1,5 +1,6 @@
 const fs = require("fs");
 
+//getting notes
 const getNote = () => {
   return "Your Note...";
 };
@@ -24,11 +25,13 @@ const addNote = (title, body) => {
   }
 };
 
+//saving note to the JSON
 const savenotes = notes => {
   const dataJSON = JSON.stringify(notes);
   fs.writeFileSync("notes.json", dataJSON);
 };
 
+// Loading all the notes
 const loadNotes = () => {
   try {
     const dataBuffer = fs.readFileSync("notes.json");
@@ -39,7 +42,21 @@ const loadNotes = () => {
   }
 };
 
+//
+const removeNote = title => {
+  const notes = loadNotes();
+
+  //checking duplicate notes
+  const newNotes = notes.filter(note => {
+    return note.title !== title;
+  });
+  //saving the new notes
+  savenotes(newNotes);
+  console.log(`The note for title: ${title} is removed`);
+};
+
 module.exports = {
   getNote: getNote,
-  addNote: addNote
+  addNote: addNote,
+  removeNote: removeNote
 };
